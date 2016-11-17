@@ -8,14 +8,17 @@ class UserController < ApplicationController
   end
   post '/' do
 
+    @password = params[:password]
+    salt = BCrypt::Engine.generate_salt
+    password_hash = BCrypt::Engine.hash_secret @password, salt
+
     @id = params[:id]
     @user_name = params[:user_name]
     @email = params[:email]
-    @password_hash = params[:password_hash]
     @model = User.new
     @model.user_name = @user_name
     @model.email = @email
-    @model.password_hash = @password_hash
+    @model.password_hash = password_hash
     @model.save
     @model.to_json
   end

@@ -2,6 +2,7 @@ class ApplicationController < Sinatra::Base
 
   require 'bundler'
   Bundler.require
+  require 'bcrypt'
 
   register Sinatra::CrossOrigin
 
@@ -12,6 +13,7 @@ class ApplicationController < Sinatra::Base
 
   require 'sinatra'
   require 'sinatra/cross_origin'
+
 
   set :allow_origin, :any
   set :allow_methods, [:get, :post, :patch, :delete]
