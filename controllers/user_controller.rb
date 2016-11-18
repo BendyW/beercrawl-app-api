@@ -2,14 +2,29 @@ class UserController < ApplicationController
 
   require 'bcrypt'
 
+  get '/:id' do
+    @id = params[:id]
+    @model = User.find(@id)
+    @model.to_json
+  end
+
+  post '/login' do
+    password = params[:password]
+
+    user_name = params[:user_name]
+    @model = User.find_by(user_name: user_name)
+
+    if @model
+      if BCrypt::Password.new(@model.password_hash) == password
+        session[:logged] = true
+        session[:user_name] = user_name
+        session.to_json
+      end
+    end
+  end
+
   get '/' do
     User.all.to_json
-  end
-  get '/:username' do
-    @user_name = params[:username]
-    if User.find(@user_name)
-       session[:logged]
-    end
   end
 
   post '/' do
@@ -27,6 +42,7 @@ class UserController < ApplicationController
     @model.save
     @model.to_json
   end
+
   patch '/:id' do
     @model = User.find(@id)
     @id = params[:id]
@@ -36,6 +52,7 @@ class UserController < ApplicationController
     @model.save
     @model.to_json
   end
+
   delete '/:id' do
     @id = params[:id]
     @model = User.find(@id)

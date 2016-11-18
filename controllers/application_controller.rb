@@ -35,7 +35,7 @@ class ApplicationController < Sinatra::Base
   #   if session[:logged] == nil
   #
   #     session[:warning] = "not logged"
-  #     redirect('/puppy/login')
+  #     redirect('/api/users/login')
   #
   #   end
   # end
