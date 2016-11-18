@@ -19,6 +19,7 @@ class UserController < ApplicationController
     puts '========================'
     @model = User.find_by(user_name: user_name)
 
+    binding.pry
     if @model
       if BCrypt::Password.new(@model.password_hash) == password
         session[:logged] = true
@@ -26,6 +27,9 @@ class UserController < ApplicationController
         session[:user_name] = user_name
         session.to_json
       end
+    elsif
+      no_name = true
+      no_name.to_json
     end
   end
 
