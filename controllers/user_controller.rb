@@ -9,14 +9,20 @@ class UserController < ApplicationController
   end
 
   post '/login' do
-    password = params[:password]
-
-    user_name = params[:user_name]
+    @params = JSON.parse request.body.read
+    password = params['password_hash']
+     puts params
+    puts '========================'
+    user_name = params['user_name']
+    puts user_name
+    puts password
+    puts '========================'
     @model = User.find_by(user_name: user_name)
 
     if @model
       if BCrypt::Password.new(@model.password_hash) == password
         session[:logged] = true
+        puts user_name
         session[:user_name] = user_name
         session.to_json
       end
