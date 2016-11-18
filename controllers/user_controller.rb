@@ -1,11 +1,20 @@
 class UserController < ApplicationController
   get '/' do
     User.all.to_json
+
+    @user = User.find_by(user_name: params[:user_name])
+    puts @user
+    if @user
+      puts 'success'
+    else
+      puts 'fail'
+    end
+
   end
-  get '/:id' do
-    @id = params[:id]
-    User.find(@id).to_json
-  end
+  # get '/:id' do
+  #   @id = params[:id]
+  #   User.find(@id).to_json
+  # end
   post '/' do
 
     @password = params[:password]
