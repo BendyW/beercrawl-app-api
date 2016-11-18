@@ -1,21 +1,29 @@
 class UserController < ApplicationController
+
+  require 'bcrypt'
+
   get '/' do
     User.all.to_json
   end
-  get '/:id' do
-    @id = params[:id]
-    User.find(@id).to_json
+  get '/:username' do
+    @user_name = params[:username]
+    if User.find(@user_name)
+       session[:logged]
+    end
   end
+
   post '/' do
 
-    @id = params[:id]
+    password = params[:password]
+    salt = BCrypt::Engine.generate_salt
+    password_hash = BCrypt::Engine.hash_secret password, salt
+
     @user_name = params[:user_name]
     @email = params[:email]
-    @password_hash = params[:password_hash]
     @model = User.new
     @model.user_name = @user_name
     @model.email = @email
-    @model.password_hash = @password_hash
+    @model.password_hash = password_hash
     @model.save
     @model.to_json
   end

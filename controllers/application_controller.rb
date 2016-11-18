@@ -1,9 +1,12 @@
 class ApplicationController < Sinatra::Base
 
+  @username = ''
+
   require 'bundler'
   Bundler.require
 
   register Sinatra::CrossOrigin
+
 
   ActiveRecord::Base.establish_connection(
       :adapter => 'mysql2',
@@ -12,6 +15,8 @@ class ApplicationController < Sinatra::Base
 
   require 'sinatra'
   require 'sinatra/cross_origin'
+
+  enable :sessions
 
   set :allow_origin, :any
   set :allow_methods, [:get, :post, :patch, :delete]
@@ -25,5 +30,14 @@ class ApplicationController < Sinatra::Base
   configure do
     enable :cross_origin
   end
+
+  # before '/*' do
+  #   if session[:logged] == nil
+  #
+  #     session[:warning] = "not logged"
+  #     redirect('/puppy/login')
+  #
+  #   end
+  # end
 
 end
