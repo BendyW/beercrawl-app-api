@@ -13,30 +13,32 @@
 ActiveRecord::Schema.define(version: 20161117165500) do
 
   create_table "challenge", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string  "challenge_name"
+    t.string  "challenge_name", null: false
     t.string  "difficulty"
     t.integer "point_value"
     t.string  "picture"
+    t.integer "event_id"
   end
 
   create_table "event", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "event_name"
-    t.string   "bar_crawl"
-    t.datetime "start_time"
+    t.string   "event_name",   null: false
+    t.string   "bar_crawl",    null: false
+    t.datetime "start_time",   null: false
     t.integer  "challenge_id"
     t.integer  "team_id"
   end
 
   create_table "team", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string "team_name"
-    t.string "user_id"
-    t.string "points"
+    t.string  "team_name", null: false
+    t.string  "points"
+    t.integer "event_id"
   end
 
   create_table "user", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string "user_name"
-    t.string "email"
-    t.string "password_hash"
+    t.string  "user_name",     null: false
+    t.string  "email",         null: false
+    t.string  "password_hash", null: false
+    t.integer "team_id"
   end
 
 end

@@ -7,13 +7,13 @@ class EventController < ApplicationController
     Event.find(@id).to_json
   end
   post '/' do
-
     @id = params[:id]
     @event_name = params[:event_name]
     @bar_crawl = params[:bar_crawl]
     @start_time = params[:start_time]
     @challenge_id = params[:challenge_id]
     @team_id = params[:team_id]
+    binding.pry
     @model = Event.new
     @model.event_name = @event_name
     @model.bar_crawl = @bar_crawl

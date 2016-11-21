@@ -7,23 +7,24 @@ class TeamController < ApplicationController
     Team.find(@id).to_json
   end
   post '/' do
-
     @team_name = params[:team_name]
     @user_id = params[:user_id]
     @points = params[:points]
     session[:team_name] = @team_name
     @model = Team.new
     @model.team_name = @team_name
-    @model.user_id = @user_id
     @model.points = @points
     @model.save
+    # find user, and give them this event's ID
+    @user = User.find(@user_id)
+    @user.team_id = @model.id
+    binding.pry
     @model.to_json
   end
   patch '/:id' do
     @model = Team.find(@id)
     @id = params[:id]
     @model.team_name = @team_name
-    @model.user_id = @user_id
     @model.points = @points
     @model.save
     @model.to_json
