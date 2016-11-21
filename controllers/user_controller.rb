@@ -10,57 +10,51 @@ class UserController < ApplicationController
 
   post '/login' do
     @params = JSON.parse request.body.read
+
     password = params['password_hash']
-    puts params
-    puts '========================'
     user_name = params['user_name']
-    # puts user_name
-    # puts password
-    puts '========================'
     @model = User.find_by(user_name: user_name)
-    # binding.pry
-    puts @model
 
     if @model
-
-      puts  BCrypt::Password.new(@model.password_hash)
-      @jim = BCrypt::Password.new(@model.password_hash)
-      puts '-----------------------------------------'
-      if @jim == params['password_hash']
+      if BCrypt::Password.new(@model.password_hash) == password
         session[:logged] = true
         puts user_name
         session[:user_name] = user_name
+        session[:user_id] = @model.id
         session.to_json
+      else
+        session[:logged] = false
+        p session.to_json
       end
+      # elsif no_name = true
+      #   no_name.to_json
+      # end
+    else
+      session[:logged] = false
+      p session.to_json
     end
   end
+
 
   get '/' do
     User.all.to_json
   end
 
   post '/' do
-    # @params = JSON.parse request.body.read
-    puts '/---------------------/jdklfjlksdjfkldsjflk;dsjlkfsdj'
-    puts params
-    puts params["password_hash"].class
-    puts params["password_hash"]
-    jim = params["password_hash"]
-    puts '--------------------------------------------'
-    # password = params[:password]
-    # salt = BCrypt::Engine.generate_salt
-    # password_hash = BCrypt::Engine.hash_secret password, salt
-    @password = BCrypt::Password.create(jim)
-    puts @password
-    puts '---------------------------'
-    puts @password.class
+
+    parampass = params["password_hash"]
+    @password_hash = BCrypt::Password.create(parampass)
+
     @user_name = params[:user_name]
     @email = params[:email]
     @model = User.new
     @model.user_name = @user_name
     @model.email = @email
-    @model.password_hash = @password
+    @model.password_hash = @password_hash
     @model.save
+    session[:logged] = true
+    session[:user_name] = @user_name
+    session[:user_id] = @model.id
     @model.to_json
   end
 
