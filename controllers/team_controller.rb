@@ -8,7 +8,6 @@ class TeamController < ApplicationController
   end
   post '/' do
 
-    @id = params[:id]
     @team_name = params[:team_name]
     @user_id = params[:user_id]
     @points = params[:points]
