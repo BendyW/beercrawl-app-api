@@ -29,9 +29,6 @@ class UserController < ApplicationController
         session[:logged] = false
         p session.to_json
       end
-    # elsif no_name = true
-    #   no_name.to_json
-    # end
     else
       session[:logged] = false
       p session.to_json
@@ -45,20 +42,26 @@ class UserController < ApplicationController
 
   post '/' do
 
-    parampass = params["password_hash"]
-    @password_hash = BCrypt::Password.create(parampass)
+    @test = User.find_by(user_name: params[:user_name])
+    @test2 = User.find_by(email: params[:email])
+    if @test || @test2
+    else
+      parampass = params["password_hash"]
+      @password_hash = BCrypt::Password.create(parampass)
 
-    @user_name = params[:user_name]
-    @email = params[:email]
-    @model = User.new
-    @model.user_name = @user_name
-    @model.email = @email
-    @model.password_hash = @password_hash
-    @model.save
-    session[:logged] = true
-    session[:user_name] = @user_name
-    session[:user_id] = @model.id
-    @model.to_json
+      @user_name = params[:user_name]
+      @email = params[:email]
+      @model = User.new
+      @model.user_name = @user_name
+      @model.email = @email
+      @model.password_hash = @password_hash
+      @model.save
+      session[:logged] = true
+      session[:user_name] = @user_name
+      session[:user_id] = @model.id
+      @model.to_json
+    end
+
   end
 
   patch '/:id' do
