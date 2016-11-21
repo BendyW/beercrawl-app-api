@@ -2,6 +2,9 @@ class UserController < ApplicationController
 
   require 'bcrypt'
 
+
+
+
   get '/:id' do
     @id = params[:id]
     @model = User.find(@id)
@@ -10,28 +13,31 @@ class UserController < ApplicationController
 
   post '/login' do
     @params = JSON.parse request.body.read
+
     password = params['password_hash']
-     puts params
-    puts '========================'
     user_name = params['user_name']
-    puts user_name
-    puts password
-    puts '========================'
     @model = User.find_by(user_name: user_name)
 
-    binding.pry
     if @model
       if BCrypt::Password.new(@model.password_hash) == password
         session[:logged] = true
         puts user_name
         session[:user_name] = user_name
+        session[:user_id] = @model.id
         session.to_json
+      else
+        session[:logged] = false
+        p session.to_json
       end
-    elsif
-      no_name = true
-      no_name.to_json
+    # elsif no_name = true
+    #   no_name.to_json
+    # end
+    else
+      session[:logged] = false
+      p session.to_json
     end
   end
+
 
   get '/' do
     User.all.to_json
@@ -39,17 +45,19 @@ class UserController < ApplicationController
 
   post '/' do
 
-    password = params[:password]
-    salt = BCrypt::Engine.generate_salt
-    password_hash = BCrypt::Engine.hash_secret password, salt
+    parampass = params["password_hash"]
+    @password_hash = BCrypt::Password.create(parampass)
 
     @user_name = params[:user_name]
     @email = params[:email]
     @model = User.new
     @model.user_name = @user_name
     @model.email = @email
-    @model.password_hash = password_hash
+    @model.password_hash = @password_hash
     @model.save
+    session[:logged] = true
+    session[:user_name] = @user_name
+    session[:user_id] = @model.id
     @model.to_json
   end
 
