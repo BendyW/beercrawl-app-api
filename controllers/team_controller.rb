@@ -11,6 +11,7 @@ class TeamController < ApplicationController
     @team_name = params[:team_name]
     @user_id = params[:user_id]
     @points = params[:points]
+    session[:team_name] = @team_name
     @model = Team.new
     @model.team_name = @team_name
     @model.user_id = @user_id
