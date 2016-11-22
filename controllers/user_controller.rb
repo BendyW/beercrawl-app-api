@@ -65,13 +65,16 @@ class UserController < ApplicationController
   end
 
   patch '/:id' do
-    @model = User.find(@id)
-    @id = params[:id]
-    @model.user_name = @user_name
-    @model.email = @email
-    @model.password_hash = @password_hash
+    @model = User.find(params[:id])
+    @model.team_id = params[:team_id]
     @model.save
-    @model.to_json
+    binding.pry
+    # @id = params[:id]
+    # @model.user_name = @user_name
+    # @model.email = @email
+    # @model.password_hash = @password_hash
+    # @model.save
+    # @model.to_json
   end
 
   delete '/:id' do

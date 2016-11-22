@@ -14,10 +14,11 @@ class TeamController < ApplicationController
     @model.team_name = @team_name
     @model.points = @points
     @model.save
-    # find user, and give them this event's ID
+    # find user, and give them this team's ID
     @user = User.find(@user_id)
     @user.team_id = @model.id
-    binding.pry
+    @user.save
+    #binding.pry
     @model.to_json
   end
   patch '/:id' do
