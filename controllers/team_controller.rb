@@ -18,7 +18,7 @@ class TeamController < ApplicationController
     # find user, and give them this event's ID
     @user = User.find(@user_id)
     @user.team_id = @model.id
-    binding.pry
+    # binding.pry
     @model.to_json
   end
   patch '/:id' do

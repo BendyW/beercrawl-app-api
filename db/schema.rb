@@ -21,11 +21,11 @@ ActiveRecord::Schema.define(version: 20161117165500) do
   end
 
   create_table "event", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "event_name",   null: false
-    t.string   "bar_crawl",    null: false
-    t.datetime "start_time",   null: false
-    t.integer  "challenge_id"
-    t.integer  "team_id"
+    t.string  "event_name",   null: false
+    t.string  "bar_crawl",    null: false
+    t.string  "start_time",   null: false
+    t.integer "challenge_id"
+    t.integer "team_id"
   end
 
   create_table "team", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

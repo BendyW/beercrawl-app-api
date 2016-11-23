@@ -13,7 +13,7 @@ class EventController < ApplicationController
     @start_time = params[:start_time]
     @challenge_id = params[:challenge_id]
     @team_id = params[:team_id]
-    binding.pry
+    # binding.pry
     @model = Event.new
     @model.event_name = @event_name
     @model.bar_crawl = @bar_crawl
