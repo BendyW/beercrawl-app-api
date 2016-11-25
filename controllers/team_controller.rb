@@ -22,12 +22,16 @@ class TeamController < ApplicationController
     @model.to_json
   end
   patch '/:id' do
-    @model = Team.find(@id)
-    @id = params[:id]
-    @model.team_name = @team_name
-    @model.points = @points
+    @id = params[:user_id]
+    @user = User.find(@id)
+    @model = Team.find(@user.team_id)
+    @model.event_id = params[:event_id]
+    # @id = params[:id]
+    # @model.team_name = @team_name
+    # @model.points = @points
     @model.save
     @model.to_json
+
   end
   delete '/:id' do
     @id = params[:id]
