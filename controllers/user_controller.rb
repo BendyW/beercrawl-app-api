@@ -70,7 +70,7 @@ class UserController < ApplicationController
     @model = User.find(params[:id])
     @model.team_id = params[:team_id]
     @model.save
-    session[:team_id] = @model.team_id
+    @session[:team_id] = @model.team_id
     # @id = params[:id]
     # @model.user_name = @user_name
     # @model.email = @email
